@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+	<title>Formulaire HTML et Javascript</title>
+	<style>
+		.error {color: #FF0000;}
+		.csstable {display: table;}
+		.csstable p {display: table-row;}
+		.csstable label {display: table-cell;}
+		.csstable input {display: table-cell;}
+		.rst {display: table-cell;}
+	</style>
+</head>
+<body>
+  <h1>Bienvenue</h1>
+  <h2>Formulaire d'inscription</h2>
+  <form id="frm" action="validate.php" method="post" enctype="multipart/form-data">
+    <fieldset class="csstable">
+      <legend><b>Coordonnées adhérents</b></legend>
+      <p> <label for="nom">Nom (*):</label> <input type="text" id="nom" name="nom"> </p>
+      <p> <label for="prenom">Prénom (*):</label> <input type="text" id="prenom" name="prenom"> </p>
+      <p> <label for="naissance">Date de naissance (*):</label> <input type="text" id="naissance" name="naissance" placeholder="2000-01-31"> </p>
+      <p> <label for="homme">Homme :</label> <input type="radio" id="homme" name="sex" value="Homme"> </p>
+      <p> <label for="femme">Femme :</label> <input type="radio" id="femme" name="sex" value="Femme"> </p>
+      <p> <label for="mail">Mail (*):</label> <input type="email" id="mail" name="mail"> </p>
+    </fieldset>
+    <fieldset>
+      <legend><b>Activité sportive</b></legend>
+      <select id="sport" name="sport">
+        <option value="Foot">Foot</option>
+        <option value="Regbi">Regbi</option>
+        <option value="Basket">Basket</option>
+        <option value="Voleh">Voleh</option>
+      </select><br>
+      <input type="checkbox" id="ecole" name="ecole" value="Ecole"> <label for="ecole"> Ecole</label><br>
+      <input type="checkbox" id="loisir" name="loisir" value="Loisir"> <label for="ecole"> Loisir</label><br>
+      <textarea id="questions" name="questions" rows="4" cols="20" placeholder="Des questions...?"></textarea>
+    </fieldset>
+    <fieldset class="csstable">
+      <legend><b>Pièce d'identité</b></legend>
+      <p> <input type="file" id="fichier" accept=".pdf,.png,.jpeg" name="fichier"> </p>
+      <p> <input type="submit" id="sbmt" value="envoyer"> <span class="rst"><input id="rst" type="reset" value="supprimer"></span> </p>
+    </fieldset>
+  </form>
+</body>
+</html>
