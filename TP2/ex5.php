@@ -9,30 +9,23 @@
 $tab1 = array(5, 3, 367, -2, 45, 9);
 $tab2 = array('Omar' => 12, 'Ilyass' => 9, 'Imane' => 15, 'Salma' => 10, 'Mohamed' => 16, 'Nouhaila' => 11);
 
-function echoArray($array) {
-	for ($i=0; $i < count($array); $i++) {
-		$ind[$i] = $i;
-	}
-	echo "<table border=\"1\" width=\"25%\"><tbody>";
-	if (array_keys($array) != array_keys($ind)) {
+function html_table($array, $kindex=false) {
+	echo "<table border=\"1\"><thead>";
+	if ( $kindex or !array_is_list($array)) {
+		echo "<tr>";
 		foreach ($array as $key => $value) {
-			echo "<tr><th>".$key."</th> ";
-			echo "<td> ".$value."</td>";
-			echo "</tr>";
-		}
+			echo "<th>".$key."</th>"; }
+		echo "</tr></thead><tbody>";
 	}
-	else {
-		foreach ($array as $key => $value) {
-			echo "<td> ".$value."</td>";
-			echo "</tr>";
-		}
-	}
-	echo "</tbody> </table>";
+	echo "<tr>";
+	foreach ($array as $value) {
+	echo "<td> ".$value."</td>"; }
+	echo "</tr></tbody></table>";
 }
 
-echoArray($tab1);
+html_table($tab1, kindex: true);
 echo "<br>";
-echoArray($tab2);
+html_table($tab2);
 
 ?>
 </body>
