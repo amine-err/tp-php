@@ -1,12 +1,10 @@
 <?php
-ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
 session_start();
-if (isset($_SESSION['profile']) and $_SESSION['profile'][0]=='admin') {
+require_once "functions.php";
+if (isset($_SESSION['profile']) and $_SESSION['profile']['type']=='admin') {
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $server = "localhost"; $user = "root"; $pass = ""; $db = "VideoLibrary";
     try {
-      $conn = new PDO("mysql:host=$server;dbname=$db", $user, $pass);
-      $stmt = $conn->prepare("UPDATE Film SET idGenre = :idGenre WHERE idFilm = :idFilm");
+      $stmt = PDOconn()->prepare("UPDATE Film SET idGenre = :idGenre WHERE idFilm = :idFilm");
       $stmt->execute([ ':idGenre' => $_POST["idGenre"], ':idFilm' => $_POST["idFilm"] ]);
       echo "Film genre updated<br>";
       unset($conn);
@@ -28,10 +26,8 @@ if (isset($_SESSION['profile']) and $_SESSION['profile'][0]=='admin') {
 </head>
 <body>
 <?php
-$server = "localhost"; $user = "root"; $pass = ""; $db = "VideoLibrary";
 try {
-  $conn = new PDO("mysql:host=$server;dbname=$db", $user, $pass);
-  $stmt = $conn->prepare("SELECT * FROM Film");
+  $stmt = PDOconn()->prepare("SELECT * FROM Film");
   $stmt->execute();
   $stmt_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
   $form = "
@@ -41,7 +37,7 @@ try {
   foreach ($stmt_data as $value) {
     $form .= "<option value='$value[idFilm]'>$value[titre] - $value[annee]</option>"; }
   $form .= "</select><br>";
-  $stmt = $conn->prepare("SELECT * FROM Genre");
+  $stmt = PDOconn()->prepare("SELECT * FROM Genre");
   $stmt->execute();
   $stmt_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
   $form .= "

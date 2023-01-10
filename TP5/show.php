@@ -1,4 +1,3 @@
-<?php ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,16 +5,17 @@
 </head>
 <body>
 <?php
-require_once('f_arrayTable.php');
+require_once('functions.php');
 session_start();
 if (isset($_SESSION["profile"])) {
-  $server = "localhost"; $user = "root"; $pass = ""; $db = "VideoLibrary";
   try {
-    $conn = new PDO("mysql:host=$server;dbname=$db", $user, $pass);
-    $stmt = $conn->prepare("SELECT * FROM Film");
+    $stmt = PDOconn()->prepare("SELECT * FROM Film WHERE idGenre = :idGenre and date = :date");
     $stmt->execute();
     $stmt_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    echo arrayTable($stmt_data);
+    echo "<pre>";
+    print_r($stmt_data);
+    echo "</pre>";
+    subarrayTable($stmt_data);
     echo "<br><a href='login.php'><button>return</button></a> ";
     unset($conn);
   } catch(PDOException $err) {

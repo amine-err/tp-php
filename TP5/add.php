@@ -1,11 +1,10 @@
-<?php ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
+<?php
 session_start();
-if (isset($_SESSION['profile']) and $_SESSION['profile'][0]=='admin') {
+require_once "functions.php";
+if (isset($_SESSION['profile']) and $_SESSION['profile']['type']=='admin') {
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $server = "localhost"; $user = "root"; $pass = ""; $db = "VideoLibrary";
     try {
-      $conn = new PDO("mysql:host=$server;dbname=$db", $user, $pass);
-      $stmt = $conn->prepare("INSERT INTO Film (idGenre, titre, annee, duree, resume, inProjection) VALUES (:idGenre, :titre, :annee, :duree, :resume, :inProjection)");
+      $stmt = PDOconn()->prepare("INSERT INTO Film (idGenre, titre, annee, duree, resume, inProjection) VALUES (:idGenre, :titre, :annee, :duree, :resume, :inProjection)");
       $stmt->execute([ ':idGenre' => $_POST["idGenre"],':titre' => $_POST["titre"], ':annee' => $_POST["annee"], ':duree' => $_POST["duree"], ':resume' => $_POST["resume"], ':inProjection' => $_POST["inProjection"] ]);
       echo "Film inserted to DataBase<br>";
       unset($conn);
@@ -27,10 +26,8 @@ if (isset($_SESSION['profile']) and $_SESSION['profile'][0]=='admin') {
 </head>
 <body>
 <?php
-$server = "localhost"; $user = "root"; $pass = ""; $db = "VideoLibrary";
 try {
-  $conn = new PDO("mysql:host=$server;dbname=$db", $user, $pass);
-  $stmt = $conn->prepare("SELECT * FROM Genre");
+  $stmt = PDOconn()->prepare("SELECT * FROM Genre");
   $stmt->execute();
   $stmt_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
   $form = "

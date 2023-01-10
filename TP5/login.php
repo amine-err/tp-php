@@ -1,4 +1,5 @@
-<?php ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
+<?php
+require_once "functions.php";
 session_start();
 if (isset($_SESSION['profile'])) {
   header('Location: profile.php');
@@ -7,14 +8,14 @@ if (isset($_SESSION['profile'])) {
 elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = $_POST["username"];
   $password = $_POST["password"];
-  $server = "localhost"; $user = "root"; $pass = ""; $db = "VideoLibrary";
   try {
-    $conn = new PDO("mysql:host=$server;dbname=$db", $user, $pass);
-    $stmt = $conn->prepare("SELECT * FROM utilisateur WHERE username=:username and password=:password");
+    $stmt = PDOconn()->prepare("SELECT * FROM utilisateur WHERE username=:username and password=:password");
     $stmt->execute([':username' => $username,':password' => $password]);
     if($stmt->rowCount()){
       $stmt_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-      $_SESSION['profile'] = array($stmt_data[0]['type'], $stmt_data[0]['username']);
+      print_r($stmt_data);
+      $_SESSION['profile']['type'] = $stmt_data[0]['type'];
+      $_SESSION['profile']['username'] = $stmt_data[0]['username'];
       header('Location: profile.php');
       exit();
     } else {
